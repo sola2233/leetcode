@@ -9,6 +9,9 @@
 using namespace std;
 class Solution {
 public:
+    /**
+     * 贪心思想，从左往右遍历，可以种花的位置就种 
+     */
     bool canPlaceFlowers(vector<int>& flowerbed, int n) {
         int size = flowerbed.size();
         /** 可以种花的位置数量 */
