@@ -31,10 +31,13 @@ public:
         while (l < r)
         {
             int mid = quickSelection(nums, l, r);
+            // 如果一趟排序后基准位置等于 target 直接返回
             if (mid == target)
                 return nums[mid];
+            // 如果基准位置小于 target，递归右子区间
             if (mid < target)
                 l = mid + 1;
+            // 如果基准位置大于 target，递归左子区间
             else 
                 r = mid - 1;
         }
@@ -42,12 +45,16 @@ public:
     }
 
     /**
-     * 辅助函数 快速选择 
-     * @param 
-     * @return 
+     * 辅助函数 快速选择
+     * 进行快排中的一趟划分，返回基准位置
+     * @param nums 乱序数组
+     * @param l 区间左端点
+     * @param r 区间右端点（左闭右闭）
+     * @return j 返回一趟划分后基准的位置
      */
     int quickSelection(vector<int>& nums, int l, int r)
     {
+        // 同快排，选择 nums[l] 为基准
         int i = l + 1, j = r;
         while (true)
         {
@@ -57,9 +64,12 @@ public:
                 --j;
             if (i >= j)
                 break;
+            // 交换两个元素，使得基准两侧元素左侧比基准小，右侧比基准大
             swap(nums[i], nums[j]);
         }
+        // j 最后停的位置一定是 nums[j] < nums[l]，且右边元素都比基准大，所以交换没有问题
         swap(nums[l], nums[j]);
+        // 返回一趟划分后的基准位置
         return j;
     }
 };
