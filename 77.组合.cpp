@@ -26,10 +26,15 @@ public:
 
     /**
      * 辅函数，回溯法 
-     * @param 
-     * @return 
+     * @param ans 返回结果
+     * @param comb 一个叶子节点，某个组合
+     * @param count 当前填到的位置，即每个叶子节点中要填的数的下标
+     * @param pos 待选择的数组中的第一个数
+     * @param n 总数组长度
+     * @param k 组合的长度
      */
-    void backtracking(vector<vector<int>> &ans, vector<int>& comb, int &count, int pos, int n, int k)
+    void backtracking(vector<vector<int>> &ans, vector<int>& comb, 
+    int &count, int pos, int n, int k)
     {
         if (count == k)
         {
