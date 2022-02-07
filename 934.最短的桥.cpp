@@ -6,7 +6,12 @@
 
 // @lc code=start
 /** 
- * 广度优先搜索
+ * BFS + DFS
+ * 算法分为三步：
+ * 1. 遍历地图数组 grid，找到第一座岛
+ * 2. 从第一座岛的起点 grid[i][j] 开始，dfs搜索，把第一座岛全部赋值为2，
+ *    并且 dfs 的过程中把靠近陆地的海洋全部放入队列 points 中
+ * 3. bfs搜索，
  */
 #include <vector>
 #include <queue>
@@ -24,36 +29,39 @@ public:
     int shortestBridge(vector<vector<int>>& grid) {
         int m = grid.size(), n = grid[0].size();
         queue<pair<int, int>> points;
-        // dfs寻找第一个岛屿，并把1全部赋值为2
+        // step1.遍历寻找第一个岛屿
         bool flipped = false;
         for (int i = 0; i < m; ++i)
         {
+            // dfs 之后，结束遍历
             if (flipped)
                 break;
             for (int j = 0; j < n; ++j)
             {
+                // 找到第一个岛屿后
                 if (grid[i][j] == 1)
                 {
+                    // step2.dfs 把1全部变为2，并把靠近陆地的海洋全部放入队列 points 中
                     dfs(points, grid, m, n, i, j);
                     flipped = true;
                     break;
                 }
             }
         }
-        // bfs寻找第二个岛屿，并把过程中经过的0复制为2
+        // step3.bfs寻找第二个岛屿，并把过程中经过的0复制为2
         int i, j;
-        int level = 0;
+        int level = 1;
+        // 向下扩展
         while (!points.empty())
         {
-            // 一层层进行遍历
-            ++level;
-            int n_points = points.size();
-            while (n_points--)
+            // 当前队列中的所有节点向外扩散
+            int sz = points.size();
+            while (sz--)
             {
-                // 遍历某一层内所有节点
                 auto p = points.front();
                 int r = p.first, c = p.second;
                 points.pop();   // 遍历完出队列
+                // 当前节点的相邻节点加入队列
                 for (int k = 0; k < 4; ++k)
                 {
                     i = r + di[k];
@@ -71,6 +79,8 @@ public:
                     }
                 }
             }
+            // 递增步长
+            ++level;
         }
         // 如果前面没有搜索到就返回0
         return 0;

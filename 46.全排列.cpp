@@ -7,8 +7,11 @@
 // @lc code=start
 /** 
  * 回溯法
+ * 回溯法三要素：路径、选择列表、结束条件
+ * 回溯法框架：大框架就是dfs遍历，相当于遍历一棵决策树
  * 参考https://leetcode-cn.com/problems/permutations/solution/quan-pai-lie-by-leetcode-solution-2/
- * 还不太明白，先抄个答案
+ * 其中交换元素不太容易理解，可以改用标记数组来作为选择列表，只在未标记的元素中选择，需要 o(n) 的空间
+ * 回溯法时间复杂度 o(n!)
  */
 #include <vector>
 #include <algorithm>
@@ -41,13 +44,14 @@ public:
             return;
         }
 
+        // 在选择列表中做选择，相当于遍历决策树每个节点，此处没有显示记录选择列表，而是通过交换元素
         for (int i = index; i < nums.size(); ++i)
         {
-            // 修改当前节点状态
+            // 做选择，修改当前节点状态
             swap(nums[i], nums[index]);
-            // 递归子节点
+            // 进入下一层决策树，递归子节点
             backtracking(nums, index+1, ans);
-            // 回改当前节点状态
+            // 撤销选择，回改当前节点状态
             swap(nums[i], nums[index]);
         }
     }
