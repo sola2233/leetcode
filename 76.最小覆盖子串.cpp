@@ -7,8 +7,6 @@
 // @lc code=start
 /** 
  * 双指针，此处用滑动窗口
- * 解题策略：
- * 
  */
 #include <string>
 #include <vector>
@@ -17,49 +15,53 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> need(128, 0);
-        vector<bool> isNeed(128, false);
-        /** 统计t中的字符 */
-        for (int i = 0; i < t.size(); ++i) 
+        unordered_map<char, int> need, window;
+        for (char c : t) need[c]++;
+
+        int left = 0, right = 0; // 滑动窗口
+        int valid = 0; // 满足条件的字符个数
+        int start = 0, len = INT32_MAX; // 记录最小覆盖子串的起始索引及长度
+        // 左闭右开
+        while (right < s.size())
         {
-            isNeed[t[i]] = true;
-            ++need[t[i]];
-        }
-        /** 滑动窗口左指针 */
-        int l = 0, needCnt = t.size();
-        /** 最小区间的左指针和区间大小 */
-        int min_l = 0, min_size = s.size()+1;
-        /** 从左往右遍历字符串s */
-        for(int r = 0; r < s.size(); ++r)
-        {
-            if(isNeed[s[r]])
+            char c = s[right]; // c 是将移入窗口的字符
+            // 滑动窗口扩大
+            right++;
+            // 扩大时更新数据：window 和 valid
+            if (need.count(c))
             {
-                /** 右移得到一个所需字符，减少相应的数量 */
-                --need[s[r]];       /* note 先减再判断，并且所需字符是可以小于0的 */
-                if(need[s[r]] >= 0)
-                    --needCnt;
-                /** 
-                 * 若滑动窗口已经包含所有需要的字符 
-                 * 则尝试将l右移，排除不需要的字符
-                 */
-                while(needCnt == 0)
+                // 先更新 window 在判断 valid 是否要更新
+                window[c]++;
+                if (window[c] == need[c])
+                    valid++;
+            }
+
+            // 滑动窗口缩小条件
+            while (valid == need.size())
+            {
+                // 更新结果：子串位置
+                if (right - left < len)
                 {
-                    /** 保存最小区间 */
-                    if(r-l+1 < min_size)
-                    {
-                        min_l = l;
-                        min_size = r - l + 1;
-                    }
-                    /* note 所需字符是可能小于0的，++need[s[l]]这步很重要，必须要加完大于0
-                     * 删除一个所需字符 
-                     */
-                    if(isNeed[s[l]] && ++need[s[l]] > 0)
-                        ++needCnt;
-                    ++l;
+                    start = left;
+                    len = right - left;
+                }
+
+                char d = s[left]; // d 是将移出窗口的字符
+                // 滑动窗口缩小
+                left++;
+                // 缩小时更新数据：window 和 valid
+                if (need.count(d))
+                {
+                    // 先判断 valid 是否要更新，再更新 window
+                    if (window[d] == need[d])
+                        valid--;
+                    window[d]--;
                 }
             }
         }
-        return min_size > s.size()? "": s.substr(min_l, min_size);
+
+        // 考虑负例情况
+        return len == INT32_MAX ? "" : s.substr(start, len);
     }
 };
 // @lc code=end
