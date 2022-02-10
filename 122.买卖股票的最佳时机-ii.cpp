@@ -6,27 +6,68 @@
 
 // @lc code=start
 /**
- * 贪心思想
- * 贪心算法的直觉：由于不限制交易次数，只要今天股价比昨天高，就交易。
- * 贪心算法只能用于计算最大利润，计算的过程并不是实际的交易过程。
- * 具体看题解
+ * 股票问题，一律 dp
+ * 框架：
+ * dp[i][k][0]：第 i 天 交易上限为 k 次此时没有持股的最大利润
+ * dp[i][k][1]：第 i 天 交易上限为 k 次此时持股的最大利润
+ * 结果：求 dp[n-1][K][0]，最后一天不持股时的最大利润
+ * 状态转移方程：
+ * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+ * dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+ * base case：
+ * dp[-1][k][0] = 0, dp[-1][k][1] = -infinity
+ * dp[i][0][0] = 0, dp[i][0][1] = -infinity
+ * 
+ * 此问题中 k 无限制，即 k = infinity，k-1 可以认为等于 k，约去 k：
+ * dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+ * dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+ * base case：
+ * 由 dp[-1][0] = 0, dp[-1][1] = -infinity 得到
+ * dp[0][0] = 0, dp[0][1] = -prices[0]
  */
 #include <vector>
 #include <algorithm>
+#include <stdint.h>
 using namespace std;
 class Solution {
 public:
+    // 方法2，空间复杂度 o(1)
     int maxProfit(vector<int>& prices) {
-        int size = prices.size();
-        /** 最大利润 */
-        int ret = 0;
-        for(int i = 1; i < size; i++)
+        int n = prices.size();
+        // base case
+        int dp_i_0 = 0, dp_i_1 = INT32_MIN;         
+        for (int i = 0; i < n; ++i)
         {
-            /** 今天价格比昨天高就交易 */
-            ret += max(0, prices[i] - prices[i-1]);
+            // 状态转移方程
+            int temp = dp_i_0;
+            dp_i_0 = max(dp_i_0, dp_i_1 + prices[i]);
+            dp_i_1 = max(dp_i_1, temp - prices[i]);
         }
-        return ret;
+
+        return dp_i_0;
     }
+
+    // 方法1，空间复杂度 o(n*2)
+    // int maxProfit(vector<int>& prices) {
+    //     int n = prices.size();
+    //     vector<vector<int>> dp(n, vector<int>(2));
+        
+    //     for (int i = 0; i < n; ++i)
+    //     {
+    //         // base case
+    //         if (i - 1 == -1)
+    //         {
+    //             dp[0][0] = 0;
+    //             dp[0][1] = -prices[i];
+    //             continue;
+    //         }
+    //         // 状态转移方程
+    //         dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]);
+    //         dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
+    //     }
+
+    //     return dp[n-1][0];
+    // }
 };
 // @lc code=end
 
