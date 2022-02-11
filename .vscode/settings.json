@@ -81,6 +81,8 @@
         "os_windows.h": "c",
         "os_vxworks.h": "c",
         "*.ipp": "c",
-        "version.h": "c"
+        "version.h": "c",
+        "bit": "cpp",
+        "variant": "cpp"
     }
 }

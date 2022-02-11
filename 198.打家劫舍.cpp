@@ -10,8 +10,14 @@
  * 思考流程：明确 base case -> 明确「状态」-> 明确「选择」 -> 定义 dp 数组/函数的含义
  * 1.base case：一间房子就是房子金额，两间就取最大
  * 2.状态：就是房子数目 n
- * 3.选择：房子数目增加
+ * 3.选择：偷或不偷
  * 4.dp(n)：给定n个房子，求能偷到最大金额，dp(i) 表示抢劫到第 i 个房子时，可以抢劫的最大数量
+ * 
+ * 状态转移方程：dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+ * base case: dp[-2] = dp[-1] = 0
+ *            dp[0] = nums[0]
+ *            dp[1] = max(dp[0], dp[-1]+nums[1])
+ *                    max(nums[0], nums[1])
  */
 #include <vector>
 #include <algorithm>
