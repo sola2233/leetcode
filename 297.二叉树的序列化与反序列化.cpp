@@ -75,7 +75,7 @@ public:
         }
 
         // 构建根节点
-        TreeNode* root = new TreeNode(atoi(first.c_str()));
+        TreeNode* root = new TreeNode(stoi(first));
         
         // 递归计算左右子树
         root->left = build(data);
@@ -87,7 +87,7 @@ public:
     //按逗号分割字符串
     list<string> split(string& data)
     {
-        int start=0; //初始查找位置
+        int start = 0; //初始查找位置
         list<string> res; //保存分割结果
         std::string::size_type pos; //find()函数的返回值类型
         while (1)

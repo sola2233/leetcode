@@ -1,14 +1,10 @@
 /*
- * @lc app=leetcode.cn id=144 lang=cpp
+ * @lc app=leetcode.cn id=94 lang=cpp
  *
- * [144] 二叉树的前序遍历
+ * [94] 二叉树的中序遍历
  */
 
 // @lc code=start
-/** 
- * 二叉树问题，递归转迭代
- */
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -27,7 +23,7 @@ class Solution {
 public:
     stack<TreeNode*> stk;
     vector<int> res;
-    vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> inorderTraversal(TreeNode* root) {
         // 左侧链入栈
         pushLeftBranch(root);
         // 记录上一个出栈元素
@@ -40,6 +36,7 @@ public:
             if ((p->left == nullptr || p->left == visited) && p->right != visited)
             {
                 // 中序位置
+                res.push_back(p->val);
                 // 右子树左侧链入栈
                 pushLeftBranch(p->right);
             }
@@ -62,7 +59,6 @@ public:
         while (p != nullptr)
         {
             // 前序位置
-            res.push_back(p->val);
             // 入栈
             stk.push(p);
             p = p->left;    
