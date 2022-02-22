@@ -17,19 +17,19 @@ using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        int l = 0;
-        int r = numbers.size()-1;
-        int sum = 0;
-        while(l < r)
+        int l = 0, r = numbers.size()-1;
+        // 左闭右闭
+        while (l < r)
         {
-            sum = numbers[l] + numbers[r];
-            if(sum == target)
+            int sum = numbers[l] + numbers[r];
+            if (sum == target)
                 break;
-            else if(sum < target)
+            else if (sum < target)
                 ++l;
-            else
+            else if (sum > target)
                 --r;
         }
+        // 题目中规定下标从 1 开始，所以加 1
         return vector<int>{l+1, r+1};
     }
 };

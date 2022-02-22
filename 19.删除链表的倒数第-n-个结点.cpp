@@ -26,12 +26,10 @@ public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         // 虚拟头结点，防止链表删光的情况
         ListNode *dummy = new ListNode(0, head);
-        // p1 先走 n 步，p2 指向虚拟头结点
+        // p1 先走 n 步，p2 指向虚拟头结点，相当于 p1 比 p2 快了 n+1 步
         ListNode *p1 = head, *p2 = dummy;
         for (int i = 0; i < n; ++i)
-        {
             p1 = p1->next;
-        }
 
         // 循环停止时，p2 就指向倒数第 n+1 个节点
         while (p1)
