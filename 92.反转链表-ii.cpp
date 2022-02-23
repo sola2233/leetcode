@@ -66,8 +66,9 @@ public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         // 虚拟头节点
         ListNode *dummy = new ListNode(0, head);
-        // 左开右开，利用 dummy 获得待反转部分前一个节点
+        // 利用 dummy 获得待反转部分前一个节点
         ListNode *a = dummy, *b = head;
+        // 左开右开，反转 (a, b) 中间的链表，不包括 a b
         for (int i = 0; i < right; ++i)
         {
             if (i < left - 1)
@@ -80,6 +81,7 @@ public:
         ListNode *pre = b, *cur = a->next, *nxt = a->next;
         while (cur != b)
         {
+            // 先记录 cur 的 next，否则就找不到了
             nxt = cur->next;
             // 逐个节点反转
             cur->next = pre;

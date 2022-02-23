@@ -51,10 +51,12 @@ public:
     // 反转链表
     ListNode* reverse(ListNode* head)
     {
+        // pre 初始化为反转后链表的后继
         ListNode *pre = nullptr, *cur = head, *nxt = head;
         // 反转链表
         while (cur != nullptr)
         {
+            // 记录 cur 的 next，否则就找不到了
             nxt = cur->next;
             // 逐个节点反转
             cur->next = pre;
@@ -62,7 +64,7 @@ public:
             pre = cur;
             cur = nxt;
         }
-
+        // pre 就是新的头节点
         return pre;
     }
 };
