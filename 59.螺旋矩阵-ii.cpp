@@ -15,39 +15,43 @@ public:
         int upper_bound = 0, bottom_bound = n - 1;
         int left_bound = 0, right_bound = n - 1;
 
-        // 转圈遍历填充数组
+        // 左闭右闭，转圈遍历填充数组
         int num = 1, sz = n * n;
         while (num <= sz)
         {
-            // 向右
             if (upper_bound <= bottom_bound)
             {
+                // 在顶部从左向右遍历
                 for (int j = left_bound; j <= right_bound; ++j)
                     res[upper_bound][j] = num++;
+                // 上边界下移
                 ++upper_bound;
             }
 
-            // 向下
             if (left_bound <= right_bound)
             {
+                // 在右侧从上向下遍历
                 for (int i = upper_bound; i <= bottom_bound; ++i)
                     res[i][right_bound] = num++;
+                // 右边界左移
                 --right_bound;
             }
 
-            // 向左
             if (upper_bound <= bottom_bound)
             {
+                // 在底部从右向左遍历
                 for (int j = right_bound; j >= left_bound; --j)
                     res[bottom_bound][j] = num++;
+                // 下边界上移
                 --bottom_bound;
             }
 
-            // 向上
             if (left_bound <= right_bound)
             {
+                // 在左侧从下向上遍历
                 for (int i = bottom_bound; i >= upper_bound; --i)
                     res[i][left_bound] = num++;
+                // 左边界右移
                 ++left_bound;
             }
         }

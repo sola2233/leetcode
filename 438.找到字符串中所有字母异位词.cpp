@@ -17,12 +17,13 @@ class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
         unordered_map<char, int> need, window;
+        // p 中字符计数
         for (char c : p) need[c]++;
 
         int left = 0, right = 0;
         int valid = 0;
         vector<int> res; // 返回结果
-        // 左闭右开
+        // 左闭右开，维持一个定长为 p.size 的滑动窗口
         while (right < s.size())
         {
             char c = s[right];
@@ -35,17 +36,17 @@ public:
                 if (window[c] == need[c])
                     valid++;
             }
-            // 窗口缩小条件
+            // 窗口缩小条件，维持一个定长为 p.size 的滑动窗口
             if (right - left == p.size())
             {
-                // 更新结果
+                // 如果是 p 的异位词就更新结果，否则直接缩小窗口
                 if (valid == need.size())
                     res.push_back(left);
 
                 char d = s[left];
                 // 窗口缩小
                 left++;
-                // 更新
+                // 更新窗口
                 if (need.count(d))
                 {
                     if (window[d] == need[d])

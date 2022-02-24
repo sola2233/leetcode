@@ -22,24 +22,29 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        ListNode *p1 = headA, *p2 = headB;
+        ListNode *a = headA, *b = headB;
 
-        // 同样可以覆盖不想交的情况，此时 p1 = p2 = nullptr
-        while (p1 != p2)
+        // 同样可以覆盖不想交的情况，此时 a = b = nullptr
+        while (a != b)
         {
-            // 走一步，如果 p1 走到 A 尾端，则转到 B
-            if (p1 == nullptr)
-                p1 = headB;
+            /** 
+             * 注意比较的是 a 而不是 a->next
+             * 如果比较 next，且没有相交，就会无限循环
+             * 如果比较 a，则会先比较 a 和 b 是否相等，再比较 a 和 nullptr
+             */
+            // 走一步，如果 a 走到 A 尾端，则转到 B
+            if (a == nullptr)
+                a = headB;
             else
-                p1 = p1->next;
-            // 走一步，如果 p2 走到 B 尾端，则转到 A
-            if (p2 == nullptr)
-                p2 = headA;
+                a = a->next;
+            // 走一步，如果 b 走到 B 尾端，则转到 A
+            if (b == nullptr)
+                b = headA;
             else
-                p2 = p2->next;
+                b = b->next;
         }
 
-        return p1;
+        return a;
     }
 };
 // @lc code=end

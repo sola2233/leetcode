@@ -18,7 +18,7 @@ public:
         // 快慢指针，先把非 0 元素移动到数组前面
         while (fast < n)
         {
-            // [0, slow] 都是非 0 元素
+            // [0, slow) 都是非 0 元素
             if (nums[fast] != 0)
             {
                 nums[slow] = nums[fast];
@@ -26,7 +26,7 @@ public:
             }
             ++fast;
         }
-        // (slow, n) 填充为 0
+        // [slow, n) 填充为 0
         while (slow < n)
             nums[slow++] = 0;
     }

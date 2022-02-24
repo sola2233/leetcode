@@ -16,7 +16,7 @@ public:
         int upper_bound = 0, bottom_bound = m - 1;
         int left_bound = 0, right_bound = n - 1;
 
-        // 遍历数组
+        // 左闭右闭，遍历数组
         int sz = m * n;
         while (res.size() < sz)
         {
