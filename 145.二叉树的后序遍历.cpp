@@ -39,7 +39,7 @@ public:
         vector<int> res;
         // 左侧链全部入栈
         pushLeftBranch(root);
-        // visited 代表上一个遍历完的根节点，即上一次出栈的节点
+        // 记录上一个出栈元素，为 visited 指向元素分配一块内存，让其不为空
         TreeNode* visited = new TreeNode();
         while (!stk.empty())
         {
