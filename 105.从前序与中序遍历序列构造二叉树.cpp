@@ -35,6 +35,7 @@ public:
                     vector<int>& inorder, int in_start, int in_end)
     {
         // base case，preorder 和 inorder 为空时，即叶子节点的哨兵节点
+        // 此时有一个很重的点，就是前序数组大小一定是和中序数组的大小相同的（这是必然）
         if (pre_start > pre_end)
             return nullptr;
         
@@ -52,7 +53,8 @@ public:
                 break; // 提前结束
             }
         }
-        int left_size = index - in_start; // 左子树大小
+        // 左子树大小
+        int left_size = index - in_start;
 
         // 递归构建左右子树
         root->left = build(preorder, pre_start + 1, pre_start + left_size, 

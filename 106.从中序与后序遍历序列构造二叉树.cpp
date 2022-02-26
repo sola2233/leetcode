@@ -33,6 +33,7 @@ public:
                     vector<int>& postorder, int post_start, int post_end)
     {
         // base case，叶子节点的哨兵节点
+        // 此时有一个很重的点，就是中序数组大小一定是和后序数组的大小相同的（这是必然）
         if (in_start > in_end)
             return nullptr;
 
@@ -50,6 +51,7 @@ public:
                 break;
             }
         }
+        // 左子树长度
         int left_size = index - in_start;
 
         // 递归构建左右子树

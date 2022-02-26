@@ -46,13 +46,14 @@ public:
             return;
         }
 
+        // 递归遍历子树
         if (root->left)
         {
             sum += root->left->val;
             path.push_back(root->left->val);
             traverse(root->left, target); // 递归
             sum -= root->left->val; // 回溯
-            path.pop_back();
+            path.pop_back(); // 回溯
         }
         if (root->right)
         {

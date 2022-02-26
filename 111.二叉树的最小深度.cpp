@@ -73,12 +73,13 @@ public:
 
         int depth = 0;
         // 后序位置，赋值本层最小深度，有三种情况
-        // 当一个左子树为空，右不为空，这时并不是最低点
+        // 当一个左子树为空，右不为空，说明最小深度是 1 + 右子树的深度
         if (root->left == nullptr && root->right != nullptr)
             depth = right_depth;
-        // 当一个右子树为空，左不为空，这时并不是最低点
+        // 当一个右子树为空，左不为空，说明最小深度是 1 + 右子树的深度
         else if (root->left != nullptr && root->right == nullptr)
             depth = left_depth;
+        // 都不为空时
         else
             depth = min(left_depth, right_depth);
 

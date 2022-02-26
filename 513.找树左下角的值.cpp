@@ -23,7 +23,7 @@
 class Solution {
 public:
     int depth = 0;
-    int max_depth = 0;
+    int max_depth = -1; // -1 是为了让只有一个节点的树能比较成功，或者令 depth 初始为 1
     int max_depth_value;
 
     int findBottomLeftValue(TreeNode* root) {
@@ -37,8 +37,6 @@ public:
         // base case
         if (root == nullptr)
             return;
-        
-        depth++;
 
         // 前序位置，找到一个叶子节点
         if (root->left == nullptr && root->right == nullptr)
@@ -50,7 +48,12 @@ public:
                 max_depth = depth;
             }
         }
+        
+        depth++;
         traverse(root->left);
+        depth--;
+        // 这才是正规写法，就是有点蠢
+        depth++;
         traverse(root->right);
         depth--;
     }

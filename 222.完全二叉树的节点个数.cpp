@@ -54,7 +54,7 @@ public:
         if (hl == hr)
             return pow(2, hl) - 1;
 
-        // 递归左右子树
+        // 否则递归左右子树
         return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };

@@ -23,12 +23,11 @@
 using namespace std;
 class Solution {
 public:
-    bool is_balanced = true;
     // 递归，用一个辅函数帮助我们计算
     bool isBalanced(TreeNode* root) {
-        GetHeight(root);
 
-        return is_balanced;
+        // 0 说明是空节点，也算平衡
+        return GetHeight(root) == -1 ? false : true;
     }
 
     // 辅函数，递归计算高度
@@ -40,12 +39,16 @@ public:
         
         // 递归子树
         int left_height = GetHeight(root->left);
+        if (left_height == -1)
+            return -1;
         int right_height = GetHeight(root->right);
+        if (right_height == -1)
+            return -1;
         // 计算高度，并判断是否平衡
         int height = max(left_height, right_height);
-        // 这里也可以不用辅助变量，如果不平衡，高度传回 -1
+        // 如果不平衡，高度传回 -1，也可以设置一个全局辅助变量
         if (abs(left_height - right_height) > 1)
-            is_balanced = false;
+            return -1;
 
         return height + 1;
     }
