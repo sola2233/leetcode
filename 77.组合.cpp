@@ -7,49 +7,42 @@
 // @lc code=start
 /** 
  * 回溯法，同46全排列
- * 还不太懂，先抄个书上答案，同46
  */
 #include <vector>
 using namespace std;
 class Solution {
 public:
-    /**
-     * 主函数 
-     */
+    vector<vector<int>> res; // 存放返回结果
+    vector<int> path; // 存放一条路径，即组合结果
     vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> ans;
-        vector<int> comb(k, 0);
-        int count = 0;
-        backtracking(ans, comb, count, 1, n, k);
-        return ans;
+        backtracking(1, n, k);
+        return res;
     }
 
     /**
-     * 辅函数，回溯法 
-     * @param ans 返回结果
-     * @param comb 一个叶子节点，某个组合
-     * @param count 当前填到的位置，即每个叶子节点中要填的数的下标
-     * @param pos 待选择的数组中的第一个数
-     * @param n 总数组长度
-     * @param k 组合的长度
-     */
-    void backtracking(vector<vector<int>> &ans, vector<int>& comb, 
-    int &count, int pos, int n, int k)
+     * 回溯法 
+     * @param start_idx 记录下一层递归搜索的起始位置
+     * @param n 一共 [1, n] n 个数
+     * @param k 要找 k 个数的组合
+     */ 
+    void backtracking(int start_idx, int n, int k)
     {
-        if (count == k)
+        // 终止条件
+        if (path.size() == k)
         {
-            ans.push_back(comb);
+            res.push_back(path);
             return;
         }
 
-        for (int i = pos; i <= n; ++i)
+        // 加上剪枝优化
+        for (int i = start_idx; i <= n - (k - path.size()) + 1; ++i)
         {
             // 修改当前节点状态
-            comb[count++] = i;
+            path.push_back(i);
             // 递归子节点
-            backtracking(ans, comb, count, i + 1, n, k);
+            backtracking(i + 1, n, k);
             // 回改当前节点
-            --count;
+            path.pop_back();
         }
     }
 };
