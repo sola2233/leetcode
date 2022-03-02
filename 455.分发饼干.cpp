@@ -5,6 +5,11 @@
  */
 
 // @lc code=start
+/** 
+ * 贪心
+ * 1.可以从前往后遍历，小饼干满足胃口小的
+ * 2.可以从后往前遍历，大饼干满足胃口大的
+ */
 #include <vector>
 #include <algorithm>
 using namespace std;

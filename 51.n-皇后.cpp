@@ -22,20 +22,21 @@
 using namespace std;
 class Solution {
 public:
+    vector<vector<string>> res; // 存放返回结果
+    vector<string> board; // 存放一条树枝
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> ans;
-        if (n == 0)
-            return ans;
-        
-        vector<string> board(n, string(n, '.'));
-        // 记录每一行放在哪一列
-        vector<bool> column(n, false);
-        // 记录方向一的斜线，从左上到右下方向，同一条斜线上的每个位置满足行下标与列下标之差相等
-        vector<bool> ldiag(2*n-1, false);
-        // 记录方向二的斜线，从右上到左下方向，同一条斜线上的每个位置满足行下标与列下标之和相等
-        vector<bool> rdiag(2*n-1, false);
-        backtracking(ans, board, column, ldiag, rdiag, 0, n);
-        return ans;
+        // 初始化
+        board.resize(n, string(n, '.'));
+        // // 记录每一行放在哪一列
+        // vector<bool> column(n, false);
+        // // 记录方向一的斜线，从左上到右下方向，同一条斜线上的每个位置满足行下标与列下标之差相等
+        // vector<bool> ldiag(2 * n - 1, false);
+        // // 记录方向二的斜线，从右上到左下方向，同一条斜线上的每个位置满足行下标与列下标之和相等
+        // vector<bool> rdiag(2 * n - 1, false);
+        // backtracking1(column, ldiag, rdiag, 0, n);
+        // 通俗一点的回溯法
+        backtracking2(0, n);
+        return res;
     }
 
     /**
@@ -43,22 +44,19 @@ public:
      * 路径：board 中小于 row 的那些行都已经成功放置了皇后
      * 选择列表：第 row 行的所有列都是放置皇后的选择
      * 结束条件：row 超过 board 的最后一行
-     * @param ans 所有找到的棋盘矩阵
-     * @param board 输入的 nxn 棋盘
      * @param column 记录的每一行放置的列位置
      * @param ldiag 方向一的斜线，从左上到右下方向，同一条斜线上的每个位置满足行下标与列下标之差相等
      * @param rdiag 方向二的斜线，从右上到左下方向，同一条斜线上的每个位置满足行下标与列下标之和相等
      * @param row 当前遍历到的行
      * @param n 放置的皇后个数
      */
-    void backtracking(vector<vector<string>> &ans, vector<string> &board, 
-                        vector<bool> &column, vector<bool> &ldiag, 
+    void backtracking1(vector<bool> &column, vector<bool> &ldiag, 
                         vector<bool> &rdiag, int row, int n)
     {
         // 触发结束条件
         if (row == n)
         {
-            ans.push_back(board);
+            res.push_back(board);
             return;
         }
         // 遍历选择列表
@@ -72,12 +70,63 @@ public:
             // 第 i 列修改为已访问，方向一斜线和方向二斜线修改为已访问
             // ldiag 中并不是 row-col，主要是为了让下标从 0 开始，且保证下标为正
             column[i] = ldiag[n-row+i-1] = rdiag[row+i] = true;
-            // 进入下一决策树，递归子节点
-            backtracking(ans, board, column, ldiag, rdiag, row+1, n);
+            // 进入下一层决策树，递归子节点
+            backtracking1(column, ldiag, rdiag, row + 1, n);
             // 撤销选择，回改当前节点状态
             board[row][i] = '.';
             column[i] = ldiag[n-row+i-1] = rdiag[row+i] = false;
         }
+    }
+
+    /**
+     * 回溯法 
+     * @param row 当前递归层放的行
+     */
+    void backtracking2(int row, int n)
+    {
+        // 终止条件，放完最后下标为 n - 1 的行后，还会再递归一层，此时返回
+        if (row == n)
+        {
+            res.push_back(board);
+            return;
+        }
+
+        // 在本层做选择，即在一行内做选择，放在哪一列
+        for (int col = 0; col < n; ++col)
+        {
+            // 跳过不符合的
+            if (!isValid(row, col, n))
+                continue;
+            
+            board[row][col] = 'Q';
+            backtracking2(row + 1, n);
+            board[row][col] = '.';
+        }
+    }
+
+    // 检查摆放是否符合条件
+    bool isValid(int row, int col, int n)
+    {
+        // 不用检查行，因为一行就放一个，不会冲突
+        // 检查列
+        for (int i = 0; i < row; ++i)
+        {
+            if (board[i][col] == 'Q')
+                return false;
+        }
+        // 检查 45 度
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j)
+        {
+            if (board[i][j] == 'Q')
+                return false;
+        }
+        // 检查 135 度
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; --i, ++j)
+        {
+            if (board[i][j] == 'Q')
+                return false;            
+        }
+        return true;
     }
 };
 // @lc code=end
