@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+/** 
+ * 贪心
+ */
 #include <vector>
 #include <numeric>
 using namespace std;
@@ -27,7 +30,7 @@ public:
         for(int i = size - 1; i > 0; i--)
         {
             if(ratings[i-1] > ratings[i])
-                num[i-1] = max(num[i-1], num[i]+1);
+                num[i-1] = max(num[i-1], num[i] + 1);
         }
         /** 返回累加和，第三个参数指定累加的初始值 */
         return accumulate(num.begin(), num.end(), 0);
