@@ -6,7 +6,7 @@
 
 // @lc code=start
 /** 
- * 贪心
+ * 贪心，记录每次能达到的最大范围
  */
 #include <vector>
 #include <algorithm>

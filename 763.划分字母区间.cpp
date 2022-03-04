@@ -7,8 +7,10 @@
 // @lc code=start
 /**
  * 贪心思想
- * 可以先统计所有字母第一次和最后一次出现的位置，这样得到一个区间，原问题转化为一个区间问题
- * 统计重叠的区间、重叠区间的左边界和右边界
+ * 可以分为如下两步：
+ * 1.统计每一个字符最后出现的位置
+ * 2.从头遍历字符，并更新字符的最远出现下标，
+ * 如果找到字符最远出现位置下标和当前下标相等了，则找到了分割点
  */
 #include <vector>
 #include <string>
@@ -17,31 +19,29 @@ using namespace std;
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        /** 字符串的长度 */
-        int size = s.size();
-        /** 保存每个字符的区间尾 */
-        vector<int> chEnd(26, 0);
-        /** 遍历字符串，得到每个字符区间尾 */
-        for(int i = 0; i < size; i++)
+        int n = s.size();
+        vector<int> ch_end(26, 0); // 保存每个字符最后出现的位置
+        // 遍历字符串
+        for(int i = 0; i < n; i++)
         {
             int ch = s[i] - 'a';
-            chEnd[ch] = i;
+            ch_end[ch] = i;
         }
-        /** 区间头、区间尾 */
+        vector<int> res;
         int start = 0, end = 0;
-        /** 返回值 */
-        vector<int> ret;
-        for(int i = 0; i < size; i++)
+        // 遍历字符串
+        for(int i = 0; i < n; i++)
         {
             int ch = s[i] - 'a';
-            end = max(end, chEnd[ch]);
+            end = max(end, ch_end[ch]);
+            // 到达某个字符的最远边界，划分一次
             if(i == end)
             {
-                ret.push_back(end - start + 1);
+                res.push_back(end - start + 1);
                 start = end + 1;
             }
         }
-        return ret;
+        return res;
     }
 };
 // @lc code=end

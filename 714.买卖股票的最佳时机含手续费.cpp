@@ -27,7 +27,7 @@
  */
 #include <vector>
 #include <algorithm>
-#include <stdint.h>
+#include <cstdint>
 using namespace std;
 class Solution {
 public:

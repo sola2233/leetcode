@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+/** 
+ * 贪心，区间调度问题
+ */
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -14,27 +17,23 @@ public:
      * 贪心思想，最优情况下每只箭都射在某个气球的右边界 
      */
     int findMinArrowShots(vector<vector<int>>& points) {
-        int size = points.size();
-        /** 没有气球或只有一个 */
-        if(size < 2)
-            return size;
-        /** 按区间右边界升序排序 */
+        int n = points.size();
+        // 按区间右边界升序排序
         sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b) {
             return a[1] < b[1];
         });
-        /** 箭计数 */
-        int count(1);
-        /** 保存前一个区间右边界 */
-        int preR = points[0][1];
-        for(int i=1; i < size; i++)
+        int count = 1; // 计数，至少有一个不想交区间
+        int pre_end = points[0][1]; // 区间右边界
+        // 遍历区间
+        for(int i = 0; i < n; i++)
         {
-            /** 区间重叠则跳过，只需要一支箭 */
-            if(points[i][0] <= preR)
+            // 区间重叠
+            if(points[i][0] <= pre_end)
                 continue;
-            /** 区间不重叠，需要增加一支箭 */
+            // 区间不重叠时，更新右边界，计数加 1
             else 
             {
-                preR = points[i][1];
+                pre_end = points[i][1];
                 count++;
             }
         }

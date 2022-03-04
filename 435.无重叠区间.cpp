@@ -5,34 +5,36 @@
  */
 
 // @lc code=start
+/** 
+ * 贪心，区间调度，类似 452 气球
+ */
 #include <vector>
 #include <algorithm>
 using namespace std;
 class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        /** 负例，空的向量 */
-        if(intervals.empty())
-            return 0;
-        /** 对输入的区间按右边界从小到大排序 */
+        int n = intervals.size();
+        // 排序
         sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b) {
-            return a[1] < b[1]; /* note lambda输入参数要是引用 */
+            return a[1] < b[1];
         });
-        /** 删除的区间数量 */
-        int removedNums = 0;
-        /** 前一个区间右边界的值 */
-        int prev = intervals[0][1];
-        /** 从第二个区间开始处理 */
-        for(int i = 1; i < intervals.size(); i++)
+        int count = 1; // 记录不重叠区间个数，同 452
+        int pre_end = intervals[0][1];
+        // 遍历区间
+        for(int i = 0; i < n; i++)
         {
-            /** 判断相邻的下一个区间是否和前一个区间重叠 */
-            if(intervals[i][0] < prev)
-                removedNums++;
-            /** 不重叠则更新前一个区间右边界的值 */
+            // 区间重叠
+            if(intervals[i][0] < pre_end)
+                continue;
+            // 区间不重叠
             else
-                prev = intervals[i][1];
+            {
+                pre_end = intervals[i][1];
+                count++;
+            }
         }
-        return removedNums;
+        return n - count;
     }
 };
 // @lc code=end
