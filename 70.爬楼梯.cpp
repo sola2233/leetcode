@@ -19,15 +19,15 @@ public:
         if (n <= 2)
             return n;
 
-        int a = 1, b = 2, cur;
+        int a = 1, b = 2;
         for (int i = 3; i <= n; ++i)
         {
-            cur = a + b;
+            int sum = a + b;
             a = b;
-            b = cur;
+            b = sum;
         }
 
-        return cur;
+        return b;
     }
 };
 // @lc code=end
