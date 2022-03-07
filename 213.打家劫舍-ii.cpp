@@ -23,7 +23,7 @@ public:
         // 负例，只有一间房
         if (n == 1) return nums[0];
         // 选两种情况中结果较大的
-        int res = max(RobRange(nums, 0, n-2), RobRange(nums, 1, n-1));
+        int res = max(RobRange(nums, 0, n - 2), RobRange(nums, 1, n - 1));
 
         return res;
     }
@@ -50,25 +50,15 @@ public:
     // {
     //     int n = nums.size();
     //     vector<int> dp(n, 0);
-
-    //     for (int i = start; i < n; ++i)
-    //     {
-    //         // base case
-    //         if (i == start)
-    //         {
-    //             dp[i] = nums[start];
-    //             continue;
-    //         }
-    //         if (i == start + 1)
-    //         {
-    //             dp[i] = max(nums[start], nums[start+1]);
-    //             continue;
-    //         }
-
+    //     // base case
+    //     dp[start] = nums[start];
+    //     // start == end 情况
+    //     if (start + 1 > end)
+    //         return dp[end];
+    //     dp[start + 1] = max(nums[start], nums[start + 1]);
+    //     for (int i = start + 2; i <= end; ++i)
     //         // 状态转移
-    //         dp[i] = max(dp[i-1], dp[i-2]+nums[i]);
-    //     }
-
+    //         dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]);
     //     return dp[end];
     // }
 };

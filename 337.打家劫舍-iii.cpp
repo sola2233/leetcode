@@ -6,7 +6,7 @@
 
 // @lc code=start
 /** 
- * dp，为什么这么像 dfs 呢？而且很奇怪，方法1更快
+ * 树形动态规划
  * 状态：节点 root
  * 选择：节点的变化，偷不偷入口 root
  * dp[root][0]：不偷节点 root
@@ -52,8 +52,8 @@ public:
         vector<int> right = dfs(root->right);
 
         // 状态转移，放在后序位置，这样可以利用到子树的返回值
-        int dp_0 = max(left[0], left[1]) + max(right[0], right[1]);
-        int dp_1 = root->val + left[0] + right[0];
+        int dp_0 = max(left[0], left[1]) + max(right[0], right[1]); // 不偷
+        int dp_1 = root->val + left[0] + right[0];                  // 偷
 
         return vector<int>{dp_0, dp_1};
     }

@@ -35,11 +35,10 @@ public:
         // dp[i][j]：使用 下标为[0, i]的nums[i]能够凑满j（包括j）这么大容量的包，有dp[i][j]种方法
         vector<vector<int>> dp(n, vector<int>(bag_size + 1, 0));
         // base case
-        dp[0][0] = 1;
-        if (nums[0] > 0 && nums[0] <= bag_size)
-            dp[0][nums[0]] = 1;
-        else if (nums[0] == 0) // nums[0] 可能为 0，太tm麻烦了
-            dp[0][nums[0]] = dp[0][0] + 1;
+        dp[0][0] = 1; // 装满容量为0的背包，有1种方法，就是装0件物品，如果有 nums[i]=0 就不止一种了
+        // 不直接赋值为 1，因为已经初始化为 0 了，所以让他自增，解决 nums[0] 为 0 的问题
+        if (nums[0] >= 0 && nums[0] <= bag_size)
+            dp[0][nums[0]] += 1;
         // 遍历物品
         for (int i = 1; i < n; ++i)
         {
