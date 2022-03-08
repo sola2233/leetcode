@@ -21,8 +21,10 @@ public:
         {
             for (int j = 1; j <= n; ++j)
             {
+                // 相等
                 if (nums1[i - 1] == nums2[j - 1])
                     dp[i][j] = dp[i - 1][j - 1] + 1;
+                // 不等
                 else
                     dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
                 res = max(res, dp[i][j]);
