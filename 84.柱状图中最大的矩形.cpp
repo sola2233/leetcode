@@ -9,6 +9,8 @@
  * 单调栈
  * 从前往后遍历，维持一个单调递增栈，即栈底到栈顶单调增，和 42 题接雨水相反
  * [好的解释](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/bao-li-jie-fa-zhan-by-liweiwei1419/)
+ * 所以本题单调栈的顺序正好与接雨水反过来
+ * 此时大家应该可以发现其实就是栈顶和栈顶的下一个元素以及要入栈的三个元素组成了我们要求最大面积的高度和宽度
  */
 #include <vector>
 #include <stack>
@@ -19,7 +21,7 @@ public:
         stack<int> stk;
         // 前后加两个哨兵
         heights.insert(heights.begin(), 0);
-        heights.push_back(0);
+        heights.push_back(0); // 不加的话栈中剩下的矩形就没有计算了
         // 首元素入栈，记录下标
         stk.push(0);
         // 遍历
