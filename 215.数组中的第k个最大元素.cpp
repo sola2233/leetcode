@@ -6,7 +6,8 @@
 
 // @lc code=start
 /** 
- * 快速选择，快速排序的一种变形
+ * 方法1.小顶堆
+ * 方法2.快速选择，快速排序的一种变形
  * 参考https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/shu-zu-zhong-de-di-kge-zui-da-yuan-su-by-leetcode-/
  * 每次经过「划分」操作后，我们一定可以确定一个元素的最终位置；
  * 并且可以保证该元素左边的元素小于它，右边的元素大于它；
@@ -21,10 +22,6 @@
 using namespace std;
 class Solution {
 public:
-    /**
-     * 寻找数组nums中第k大元素 
-     * @return 第k大元素的值
-     */
     int findKthLargest(vector<int>& nums, int k) {
         // 目标元素下标 size - k
         int l = 0, r = nums.size() - 1, target = nums.size() - k;
@@ -45,11 +42,7 @@ public:
     }
 
     /**
-     * 辅助函数 快速选择
-     * 进行快排中的一趟划分，返回基准位置
-     * @param nums 乱序数组
-     * @param l 区间左端点
-     * @param r 区间右端点（左闭右闭）
+     * 快速选择，进行快排中的一趟划分，返回基准位置（左闭右闭）
      * @return j 返回一趟划分后基准的位置
      */
     int quickSelection(vector<int>& nums, int l, int r)
