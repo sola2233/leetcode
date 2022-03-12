@@ -8,7 +8,7 @@
 /** 
  * 动态规划
  * 规划不出来啊
- * dp[i][j]: 以 matrix[i-1][j-1] 为下标的最大正方形边长
+ * dp[i][j]: 以 matrix[i-1][j-1] 为右下角的最大正方形边长
  * 状态转移: dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
  */
 #include <vector>
