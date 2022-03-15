@@ -72,9 +72,9 @@ void merge_sort(std::vector<int>& nums, int lo, int hi, std::vector<int>& temp)
     int p1 = lo;    // 左子序列起始指针
     int p2 = mid;   // 右子序列起始指针
     int i = lo;     // 给 temp 赋值用
-    // 两个子序列中，小的数放到前面
+    // 两个子序列中，小的数放到前面，相等是为了保证稳定性
     while (p1 < mid && p2 < hi)
-        temp[i++] = nums[p1] < nums[p2] ? nums[p1++] : nums[p2++];
+        temp[i++] = nums[p1] <= nums[p2] ? nums[p1++] : nums[p2++];
     // 下面两个循环只会执行一个
     while (p1 < mid)
         temp[i++] = nums[p1++];
@@ -167,5 +167,66 @@ void selection_sort(std::vector<int> &nums)
                 mid = j;
         }
         std::swap(nums[mid], nums[i]);
+    }
+}
+
+/**
+ * 堆排序 o(nlogn)
+ * 对于选择排序，有两种做法，都是 o(n^2) 复杂度：
+ * 1.n - 1 趟扫描，每次把最小的元素放到前面
+ * 2.n - 1 趟扫描，每次把最大的元素放到后面
+ * 堆：
+ * n 个节点，root 如果从 0 开始：
+ * 父节点: i，左子树: 2 * i + 1，右子树: 2 * i + 2
+ * 子节点: i，父节点: (i - 1) / 2
+ * 堆排序借鉴第 2 种方法，且可以做到就地排序，不需要额外空间，最后的内部节点就是最后一个节点的父亲
+ * 1.原向量建立大顶堆，建堆采用 floyd 建堆算法:从内部节点 (n-2) / 2 开始的下滤，复杂度 O(n)
+ * 2.交换堆顶和末尾元素
+ * 3.对处在堆顶的末尾元素执行下滤
+ */
+void heap_sort(std::vector<int>& nums)
+{
+    int n = nums.size();
+    // 建堆
+    heap_build(nums);
+    // n - 1 趟扫描
+    for (int i = 0; i < n - 1; ++i)
+    {
+        // 交换第一个和最后一个，要用 front，不能用 i
+        std::swap(nums.front(), nums[n - i - 1]);
+        percolateDown(nums, n - i - 1, 0);
+    }
+}
+
+/** 建大顶堆 */
+void heap_build(std::vector<int>& nums)
+{
+    int n = nums.size();
+    for (int i = (n - 2) / 2; i >= 0; i--)
+        percolateDown(nums, n, i);
+
+    for (int i = 0; i < nums.size(); i++)
+        std::cout << nums[i] << " ";
+    std::cout << std::endl;
+}
+
+/**
+ * 下滤，直到叶子节点 
+ * @param i 当前节点下标为 i
+ * @param n 当前堆的规模，不是 nums 的大小
+ */
+void percolateDown(std::vector<int>& nums, int n, int i)
+{
+    int left = 2 * i + 1, right = 2 * i + 2;
+    int max_child = i;
+    // 分两步比较，找到最大的孩子
+    if (left < n && nums[left] > nums[max_child])
+        max_child = left;
+    if (right < n && nums[right] > nums[max_child])
+        max_child = right;
+    if (max_child != i)
+    {
+        std::swap(nums[i], nums[max_child]);
+        percolateDown(nums, n, max_child); // 递归
     }
 }
