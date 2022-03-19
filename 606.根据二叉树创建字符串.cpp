@@ -30,7 +30,7 @@ public:
         if (root->left == nullptr && root->right == nullptr)
             return to_string(root->val);
 
-        // 递归子树
+        // 递归子树，left 和 right 至多只有一个为空
         string left_str = tree2str(root->left);
         string right_str = tree2str(root->right);
 
