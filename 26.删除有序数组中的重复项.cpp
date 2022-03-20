@@ -19,7 +19,7 @@ public:
         // 双指针，把不重复的元素移动到前面去
         while (fast < nums.size())
         {
-            if (nums[slow] != nums[fast])
+            if (nums[fast] != nums[slow])
             {
                 // [0, slow] 都是不重复的元素
                 ++slow;

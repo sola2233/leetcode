@@ -23,19 +23,18 @@ public:
         // 左闭右闭，每次比较区间中点 mid * mid 和 x的大小关系
         while(left <= right)
         {
-            // 可能会溢出，此处用long，换成 sqrt 的写法就不用担心溢出了
-            long mid = left + (right - left) / 2;
-            unsigned long long pow_mid = mid * mid;
-            if (pow_mid < x)
+            int mid = left + (right - left) / 2;
+            // 可能会溢出，此处用除法代替乘法，比较 mid 和 x / mid
+            if (mid < x / mid)
                 left = mid + 1;
-            else if (pow_mid > x)
+            else if (mid > x / mid)
                 right = mid - 1;
             // 只有 x 的平方根是整数时，才能在循环中返回正确答案
-            else if (pow_mid == x)
+            else if (mid == x / mid)
                 return mid;
         }
 
-        // 左闭右闭最后一定是返回 right
+        // 返回 right 或 left - 1
         return right;
     }
 };

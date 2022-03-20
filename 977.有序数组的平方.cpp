@@ -15,28 +15,57 @@ using namespace std;
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
-        int left = 0, right = nums.size() - 1;
-        vector<int> res(nums.size());
-        for (int i = nums.size() - 1; i >= 0; --i)
+        int n = nums.size();
+        vector<int> res(n);
+        int left = 0, right = n - 1;
+        for (int i = n - 1; i >= 0; i--)
         {
-            // 这里用临时变量，不能直接对数组元素操作，否则会对一个数多次平方
-            int pow_right = nums[right] * nums[right];
-            int pow_left = nums[left] * nums[left];
             // 大的数添加到 res 尾部
-            if (pow_right > pow_left)
+            if (abs(nums[right]) > abs(nums[left]))
             {
-                res[i] = pow_right;
-                --right;
+                res[i] = nums[right] * nums[right];
+                right--;
             }
             else
             {
-                res[i] = pow_left;
-                ++left;
+                res[i] = nums[left] * nums[left];
+                left++;
             }
         }
 
         return res;
     }
+
+    // 这个麻烦一点
+    // vector<int> sortedSquares(vector<int>& nums) {
+    //     int n = nums.size();
+    //     vector<int> res;
+    //     res.reserve(n);
+    //     // left 指向最后一个负数，right 指向第一个正数
+    //     int left = -1, right = 0;
+    //     for (int i = 0; i < n; ++i)
+    //     {
+    //         if (nums[i] < 0)
+    //         {
+    //             left++;
+    //             right++;
+    //         }
+    //         nums[i] *= nums[i];
+    //     }
+
+    //     while (left >= 0 && right < n)
+    //     {
+    //         if (nums[left] < nums[right])
+    //             res.push_back(nums[left--]);
+    //         else
+    //             res.push_back(nums[right++]);
+    //     }
+    //     while (left >= 0)
+    //         res.push_back(nums[left--]);
+    //     while (right < n)
+    //         res.push_back(nums[right++]);
+    //     return res;
+    // }
 };
 // @lc code=end
 

@@ -13,9 +13,8 @@ using namespace std;
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        int n = nums.size();
         int slow = 0, fast = 0;
-        while (fast < n)
+        while (fast < nums.size())
         {
             // 只要 nums[fast] 不等于 val，就移动到数组前面
             if (nums[fast] != val)
