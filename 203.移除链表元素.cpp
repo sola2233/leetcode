@@ -21,19 +21,19 @@ public:
         // 虚拟头节点
         ListNode* dummy = new ListNode(0, head);
         // 遍历链表
-        ListNode* slow = dummy;
-        while (slow->next != nullptr)
+        ListNode* cur = dummy;
+        while (cur->next != nullptr)
         {
-            if (slow->next->val == val)
+            if (cur->next->val == val)
             {
                 // 删除节点
-                ListNode* tmp = slow->next;
-                slow->next = slow->next->next;
+                ListNode* tmp = cur->next;
+                cur->next = cur->next->next;
                 delete tmp;
             }
             else
                 // 只有 next 的值不为 val 才能后移
-                slow = slow->next;
+                cur = cur->next;
         }
         return dummy->next;
     }

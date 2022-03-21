@@ -7,8 +7,9 @@
 // @lc code=start
 /** 
  * 方法1.中序遍历 + 双指针
- * 方法2.中序遍历 + hashset
- * 方法3.中序遍历 + hashset，不用储存中序遍历序列了，直接存到 hashset 里
+ * 方法2.中序遍历 + hashset，o(n)，先用 vector 储存中序遍历序列，再用 hashset 判断
+ *       因为判断的时候 inorder[i]，还不在 hashset 中，防止判断出 inorder[i] + inorder[i] == k
+ * 方法3.中序遍历 + hashset，o(n)，不用储存中序遍历序列了，直接存到 hashset 里，边遍历边判断
  */
 /**
  * Definition for a binary tree node.

@@ -67,14 +67,13 @@ public:
         // 虚拟头节点
         ListNode *dummy = new ListNode(0, head);
         // 利用 dummy 获得待反转部分前一个节点
-        ListNode *a = dummy, *b = head;
+        ListNode *a = dummy, *b = dummy;
         // 左开右开，反转 (a, b) 中间的链表，不包括 a b
-        for (int i = 0; i < right; ++i)
+        for (int i = 0; i <= right; ++i)
         {
             if (i < left - 1)
                 a = a->next;
-            if (i <= right - 1)
-                b = b->next;
+            b = b->next;
         }
 
         // 反转链表
