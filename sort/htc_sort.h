@@ -8,17 +8,27 @@
 //  Modify: 
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// C++标准库
 #include <vector>
 #include <iostream>
+#include <algorithm>    // swap函数
 
+// 快速排序
 void quick_sort(std::vector<int> &nums, int l, int r);
 
+// 归并排序
 void merge_sort(std::vector<int> &nums, int l, int r, std::vector<int> &temp);
 
+// 插入排序
 void insertion_sort(std::vector<int> &nums);
 
+// 希尔排序
+void shell_sort(std::vector<int>& nums);
+
+// 冒泡排序
 void bubble_sort(std::vector<int> &nums);
 
+// 选择排序
 void selection_sort(std::vector<int> &nums);
 
 // 堆排序

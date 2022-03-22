@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <iostream>
-#include <queue>
+#include <queue> // 优先级队列
 #include "htc_sort.h"
 
 using namespace std;
@@ -20,10 +20,11 @@ int main()
 
     //-------------------------------Step2.排序-------------------------------//
     // quick_sort(nums, 0, size);
-    merge_sort(nums, 0, size, temp);
+    // merge_sort(nums, 0, size, temp);
     // insertion_sort(nums);
+    // shell_sort(nums);
     // bubble_sort(nums);
-    // selection_sort(nums);
+    selection_sort(nums);
     // heap_sort(nums);
     // 标准库堆排序
     // make_heap(nums.begin(), nums.end());
@@ -32,6 +33,5 @@ int main()
     for (auto a : nums)
         cout << a << ' ';
     cout << endl;
-
     return 0;    
 }
