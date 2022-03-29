@@ -6,6 +6,7 @@
 
 -- @lc code=start
 # Write your MySQL query statement below
+--- 子查询
 select d.name as Department, e.name as Employee, e.salary as Salary
 from Employee e, Department d, (select departmentId, max(salary) salary from Employee group by departmentId) m 
 where e.departmentId = d.id 
