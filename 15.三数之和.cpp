@@ -35,26 +35,33 @@ public:
             {
                 int sum = nums[left] + nums[right];
                 int last_left = nums[left], last_right = nums[right];
-                if (sum < target)
+                // 这里看着复杂，实际思想很简单
+                if (sum < target)   // 如果 sum 偏小，增大 left
                 {
+                    // 与其自增一，不如同时去个重
                     while (left < right && nums[left] == last_left)
                         ++left;
                 }
-                else if (sum > target)
+                else if (sum > target)  // 如果 sum 偏小，减小 right
                 {
+                    // 与其自减一，不如同时去个重
                     while (left < right && nums[right] == last_right)
                         --right;
                 }
-                else if (sum == target)
+                else if (sum == target) // 如果 sum == target
                 {
-                    res.push_back({nums[i], nums[left], nums[right]});                
+                    // 保存结果
+                    res.push_back({nums[i], nums[left], nums[right]});   
+                    // 移动两个指针             
+                    // 与其自增一，不如同时去个重
                     while (left < right && nums[left] == last_left)
                         ++left;
+                    // 与其自减一，不如同时去个重
                     while (left < right && nums[right] == last_right)
                         --right;                  
                 }
             }
-            // 递增 i 同时去除重复元素
+            // note 递增 i 同时去除重复元素
             int last = nums[i];
             while (i <= n - 3 && nums[i] == last)
                 ++i;

@@ -102,89 +102,91 @@ private:
 };
 
 // 方法2.双向链表
-// class MyLinkedList {
-//     struct ListNode {
-//         int val;
-//         ListNode* next;
-//         ListNode* prev;
-//         ListNode() : val(0), next(nullptr), prev(nullptr) {}
-//         ListNode(int val_) : val(val_), next(nullptr), prev(nullptr) {}
-//     };
-// public:
-//     MyLinkedList() {
-//         head = new ListNode();
-//         tail = new ListNode();
-//         size = 0;
-//         head->next = tail;
-//         tail->prev = head;
-//     }
+#ifdef BI_LIST
+class MyLinkedList {
+    struct ListNode {
+        int val;
+        ListNode* next;
+        ListNode* prev;
+        ListNode() : val(0), next(nullptr), prev(nullptr) {}
+        ListNode(int val_) : val(val_), next(nullptr), prev(nullptr) {}
+    };
+public:
+    MyLinkedList() {
+        head = new ListNode();
+        tail = new ListNode();
+        size = 0;
+        head->next = tail;
+        tail->prev = head;
+    }
     
-//     int get(int index) {
-//         if (index < 0) return -1;
-//         if (index >= size) return -1;
-//         ListNode* cur = head;
-//         for (int i = 0; i <= index; ++i)
-//             cur = cur->next;
-//         return cur->val;
-//     }
+    int get(int index) {
+        if (index < 0) return -1;
+        if (index >= size) return -1;
+        ListNode* cur = head;
+        for (int i = 0; i <= index; ++i)
+            cur = cur->next;
+        return cur->val;
+    }
     
-//     void addAtHead(int val) {
-//         ListNode* cur = new ListNode(val);
-//         cur->next = head->next;
-//         cur->prev = head;
-//         head->next->prev = cur;
-//         head->next = cur;
-//         size++;
-//     }
+    void addAtHead(int val) {
+        ListNode* cur = new ListNode(val);
+        cur->next = head->next;
+        cur->prev = head;
+        head->next->prev = cur;
+        head->next = cur;
+        size++;
+    }
     
-//     void addAtTail(int val) {
-//         ListNode* cur = new ListNode(val);
-//         cur->next = tail;
-//         cur->prev = tail->prev;
-//         tail->prev->next = cur;
-//         tail->prev = cur;
-//         size++;
-//     }
+    void addAtTail(int val) {
+        ListNode* cur = new ListNode(val);
+        cur->next = tail;
+        cur->prev = tail->prev;
+        tail->prev->next = cur;
+        tail->prev = cur;
+        size++;
+    }
     
-//     void addAtIndex(int index, int val) {
-//         if (index < 0)
-//         {
-//             addAtHead(val);
-//             return;
-//         }
-//         if (index == size)
-//         {
-//             addAtTail(val);
-//             return;
-//         }
-//         if (index > size) return;
-//         ListNode* cur = head;
-//         for (int i = 0; i <= index; ++i)
-//             cur = cur->next;
-//         ListNode* node = new ListNode(val);
-//         node->next = cur;
-//         node->prev = cur->prev;
-//         cur->prev->next = node;
-//         cur->prev = node;
-//         size++;
-//     }
+    void addAtIndex(int index, int val) {
+        if (index < 0)
+        {
+            addAtHead(val);
+            return;
+        }
+        if (index == size)
+        {
+            addAtTail(val);
+            return;
+        }
+        if (index > size) return;
+        ListNode* cur = head;
+        for (int i = 0; i <= index; ++i)
+            cur = cur->next;
+        ListNode* node = new ListNode(val);
+        node->next = cur;
+        node->prev = cur->prev;
+        cur->prev->next = node;
+        cur->prev = node;
+        size++;
+    }
     
-//     void deleteAtIndex(int index) {
-//         if (get(index) == -1)
-//             return;
-//         ListNode* cur = head;
-//         for (int i = 0; i <= index; ++i)
-//             cur = cur->next;
-//         cur->next->prev = cur->prev;
-//         cur->prev->next = cur->next;
-//         delete cur;
-//         size--; 
-//     }
-// private:
-//     ListNode* head;
-//     ListNode* tail;
-//     int size;
-// };
+    void deleteAtIndex(int index) {
+        if (get(index) == -1)
+            return;
+        ListNode* cur = head;
+        for (int i = 0; i <= index; ++i)
+            cur = cur->next;
+        cur->next->prev = cur->prev;
+        cur->prev->next = cur->next;
+        delete cur;
+        size--; 
+    }
+private:
+    ListNode* head;
+    ListNode* tail;
+    int size;
+};
+#endif
 
 /**
  * Your MyLinkedList object will be instantiated and called as such:

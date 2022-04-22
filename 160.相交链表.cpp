@@ -24,7 +24,7 @@ public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         ListNode *a = headA, *b = headB;
 
-        // 同样可以覆盖不想交的情况，此时 a = b = nullptr
+        // 同样可以覆盖不相交的情况，此时 a = b = nullptr
         while (a != b)
         {
             /** 

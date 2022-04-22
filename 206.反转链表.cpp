@@ -22,19 +22,21 @@
  */
 class Solution {
 public:
+#if 0
     // 方法2，递归，递归函数定义是返回翻转链表的首节点指针，即原先的尾节点指针
-    // ListNode* reverseList(ListNode* head) {
-    //     // base case，head 为空是负例，head 只有一个节点是我们的递归基
-    //     if (head == nullptr || head->next == nullptr)
-    //         return head;
-    //     // 递归翻转 head->next 子链，并返回子链翻转后的首节点指针 last
-    //     ListNode* last = reverseList(head->next);
-    //     // 当前节点 head 作为后继翻转子链的尾节点
-    //     head->next->next = head; // 子链尾节点 next 指向当前节点
-    //     head->next = nullptr;    // 当前节点 next 指向 nullptr
+    ListNode* reverseList(ListNode* head) {
+        // base case，head 为空是负例，head 只有一个节点是我们的递归基
+        if (head == nullptr || head->next == nullptr)
+            return head;
+        // 递归翻转 head->next 子链，并返回子链翻转后的首节点指针 last
+        ListNode* last = reverseList(head->next);
+        // 当前节点 head 作为后继翻转子链的尾节点
+        head->next->next = head; // 子链尾节点 next 指向当前节点
+        head->next = nullptr;    // 当前节点 next 指向 nullptr
 
-    //     return last; // 返回 last，不是 head
-    // }
+        return last; // 返回 last，不是 head
+    }
+#endif
 
     // 方法1，迭代
     ListNode* reverseList(ListNode* head) {
