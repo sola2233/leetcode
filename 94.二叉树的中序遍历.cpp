@@ -28,6 +28,7 @@ public:
         pushLeftBranch(root);
         // 记录上一个出栈元素，为 visited 指向元素分配一块内存，让其不为空
         TreeNode* visited = new TreeNode();
+        TreeNode* tmp = visited;
         while (!stk.empty())
         {
             TreeNode* p = stk.top();
@@ -51,6 +52,7 @@ public:
             }
         }
 
+        delete tmp;
         return res;
     }
 

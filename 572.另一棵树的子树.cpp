@@ -26,52 +26,54 @@
 using namespace std;
 class Solution {
 public:
-    // 方法1.后序遍历序列化 + 比较
-    // bool is_subtree = false;
-    // bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-    //     // 序列化 subRoot
-    //     string pattern = traverseSubTree(subRoot);
-    //     // 遍历
-    //     traverse(root, pattern);
+#if 0   // 方法1.后序遍历序列化 + 比较
+    
+    bool is_subtree = false;
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        // 序列化 subRoot
+        string pattern = traverseSubTree(subRoot);
+        // 遍历
+        traverse(root, pattern);
 
-    //     return is_subtree;
-    // }
+        return is_subtree;
+    }
 
-    // // 递归遍历+回溯，序列化以每个节点为根的子树，比较两个序列
-    // string traverse(TreeNode* root, string& pattern)
-    // {
-    //     // base case
-    //     if (root == nullptr)
-    //     {
-    //         return "#,";
-    //     }
+    // 递归遍历+回溯，序列化以每个节点为根的子树，比较两个序列
+    string traverse(TreeNode* root, string& pattern)
+    {
+        // base case
+        if (root == nullptr)
+        {
+            return "#,";
+        }
 
-    //     string left = traverse(root->left, pattern);
-    //     string right = traverse(root->right, pattern);
+        string left = traverse(root->left, pattern);
+        string right = traverse(root->right, pattern);
 
-    //     string path = left + right + to_string(root->val) + ",";
-    //     if (path == pattern)
-    //         is_subtree = true;
+        string path = left + right + to_string(root->val) + ",";
+        if (path == pattern)
+            is_subtree = true;
 
-    //     return path;
-    // }
+        return path;
+    }
 
-    // // 递归遍历+回溯，序列化以每个节点为根的子树，比较两个序列
-    // string traverseSubTree(TreeNode* root)
-    // {
-    //     // base case
-    //     if (root == nullptr)
-    //     {
-    //         return "#,";
-    //     }
+    // 递归遍历+回溯，序列化以每个节点为根的子树，比较两个序列
+    string traverseSubTree(TreeNode* root)
+    {
+        // base case
+        if (root == nullptr)
+        {
+            return "#,";
+        }
 
-    //     string left = traverseSubTree(root->left);
-    //     string right = traverseSubTree(root->right);
+        string left = traverseSubTree(root->left);
+        string right = traverseSubTree(root->right);
 
-    //     string path = left + right + to_string(root->val) + ",";
+        string path = left + right + to_string(root->val) + ",";
 
-    //     return path;
-    // }
+        return path;
+    }
+#endif
 
     // 方法2.100题判断两棵树是否相同
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {

@@ -31,7 +31,7 @@ public:
 
         void pop(int x)
         {
-            // 只有 x 是队列头部元素时，才出队列
+            // 只有 x 是队列头部元素时，才出队列，测试不判断是否为空也行
             if (!q_.empty() && q_.front() == x)
                 q_.pop_front();
         }
