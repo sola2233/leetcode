@@ -5,6 +5,11 @@
  */
 
 // @lc code=start
+/** 
+ * 方法1.遍历 + 回溯
+ * 方法2.分解问题，递归
+ */
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -20,6 +25,8 @@
 using namespace std;
 class Solution {
 public:
+
+#if 0   // 遍历 + 回溯
     vector<vector<int>> res; // 存放返回结果
     vector<int> path; // 存放某条路径
     int sum = 0;
@@ -64,6 +71,46 @@ public:
             path.pop_back();
         }
     }
+#endif
+
+#if 1   // 分解问题递归，效率感觉低一些
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> res;
+        // base case
+        if (root == nullptr)
+            return res;
+        // 叶子节点
+        if (root->left == nullptr && root->right == nullptr)
+        {
+            // 路径和等于目标
+            if (targetSum == root->val)
+            {
+                res.push_back({root->val});
+                return res;
+            }   
+            else    // 否则返回空值
+                return res;
+        }
+
+        vector<vector<int>> left = pathSum(root->left, targetSum - root->val);
+        vector<vector<int>> right = pathSum(root->right, targetSum - root->val);
+
+        for (auto vec : left)
+        {
+            vector<int> tmp = {root->val};
+            tmp.insert(tmp.end(), vec.begin(), vec.end());
+            res.push_back(tmp);
+        }
+        for (auto vec : right)
+        {
+            vector<int> tmp = {root->val};
+            tmp.insert(tmp.end(), vec.begin(), vec.end());
+            res.push_back(tmp);
+        }
+
+        return res;
+    }
+#endif
 };
 // @lc code=end
 

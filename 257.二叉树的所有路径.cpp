@@ -6,7 +6,8 @@
 
 // @lc code=start
 /** 
- * 感觉遍历比较好
+ * 方法1.遍历递归
+ * 方法2.分解问题递归
  */
 /**
  * Definition for a binary tree node.
@@ -24,6 +25,7 @@
 using namespace std;
 class Solution {
 public:
+#if 0   // 遍历，可以把 path 放到函数参数中，更简洁一点
     vector<string> res; // 存放结果
     vector<string> path; // 存放单个路径，选择vector是为了方便回溯
 
@@ -67,6 +69,28 @@ public:
             path.pop_back();
         }
     }
+#endif
+
+#if 1   // 分解问题递归
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        if (root == nullptr)
+            return {};
+        
+        vector<string> left = binaryTreePaths(root->left);
+        vector<string> right = binaryTreePaths(root->right);
+
+        string node = to_string(root->val);
+        for (string& s : left)
+            res.push_back(node + "->" + s);
+        for (string& s : right)
+            res.push_back(node + "->" + s);
+
+        if (res.empty())
+            res.push_back(node);
+        return res;
+    }
+#endif
 };
 // @lc code=end
 

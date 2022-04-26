@@ -18,6 +18,7 @@
  */
 class Solution {
 public:
+#if 0   // 递归写法1
     // 递归，后序位置
     int sumOfLeftLeaves(TreeNode* root) {
         // base case
@@ -33,6 +34,20 @@ public:
         int sum = mid_value + left_value + right_value;
         return sum;
     }
+#endif
+
+#if 1   // 递归写法2，更好的写法
+    int sumOfLeftLeaves(TreeNode* root) {
+        // base case
+        if (root == nullptr)
+            return 0;
+
+        if (root->left && root->left->left == nullptr && root->left->right == nullptr)
+            return root->left->val + sumOfLeftLeaves(root->right);
+        
+        return sumOfLeftLeaves(root->left) + sumOfLeftLeaves(root->right);
+    }
+#endif
 };
 // @lc code=end
 
