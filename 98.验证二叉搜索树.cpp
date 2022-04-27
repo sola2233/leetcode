@@ -24,6 +24,7 @@
  */
 class Solution {
 public:
+#if 1   // 利用中序遍历
     // 方法2，利用中序遍历
     bool isValidBST(TreeNode* root) {
         bool res = traverse(root);
@@ -50,34 +51,37 @@ public:
 
         return left && right;
     }
+#endif
 
-    // bool isValidBST(TreeNode* root) {
-    //     return isValidBST(root, nullptr, nullptr);
-    // }
+#if 0   // 递归
+    bool isValidBST(TreeNode* root) {
+        return isValidBST(root, nullptr, nullptr);
+    }
 
     // 方法1，递归，通过辅助函数，增加参数列表，将约束传递给子节点，这里是自顶向下比较
     // 所以是前序，比较了每个节点 root 和参数传递的范围，
     // 即每个以 root 为根的子树节点必须满足 min < root->val < max
-    // bool isValidBST(TreeNode* root, TreeNode* min, TreeNode* max)
-    // {
-    //     // base case
-    //     if (root == nullptr)
-    //         return true;
+    bool isValidBST(TreeNode* root, TreeNode* min, TreeNode* max)
+    {
+        // base case
+        if (root == nullptr)
+            return true;
         
-    //     // 比较 root 节点，检查 root 节点是否满足
-    //     if (min != nullptr && root->val <= min->val)
-    //         return false;
-    //     if (max != nullptr && root->val >= max->val)
-    //         return false;
+        // 比较 root 节点，检查 root 节点是否满足
+        if (min != nullptr && root->val <= min->val)
+            return false;
+        if (max != nullptr && root->val >= max->val)
+            return false;
 
-    //     // 递归左右子树，检查左右子树是否满足
-    //     // root 的左子树的最大值是 root
-    //     bool left = isValidBST(root->left, min, root);
-    //     // root 的右子树的最小值是 root
-    //     bool right = isValidBST(root->right, root, max);
+        // 递归左右子树，检查左右子树是否满足
+        // root 的左子树的最大值是 root
+        bool left = isValidBST(root->left, min, root);
+        // root 的右子树的最小值是 root
+        bool right = isValidBST(root->right, root, max);
 
-    //     return left && right;
-    // }
+        return left && right;
+    }
+#endif
 };
 // @lc code=end
 
