@@ -23,7 +23,7 @@ class Solution {
 public:
     // 递归函数，在以 root 为根的 bst 中删除 key，返回新的 bst 根节点
     TreeNode* deleteNode(TreeNode* root, int key) {
-        // base case
+        // 1.没有找到待删除节点的情况
         if (root == nullptr)
             return root;
         
@@ -36,10 +36,20 @@ public:
         // 找到删除，返回删除后子树的根节点
         if (root->val == key)
         {
-            // 1.包含了 root 没有子节点和只有一个子节点两种情况
-            if (root->left == nullptr)  return root->right;
-            if (root->right == nullptr) return root->left;
-            // 2.root 有两个子节点的情况，此时把右子树中的最小值放到 root 处
+            // 2.包含了 root 没有子节点和只有一个子节点三种情况
+            if (root->left == nullptr)
+            {
+                TreeNode* right = root->right;
+                delete root;    // 删除节点
+                return right;
+            }
+            if (root->right == nullptr)
+            {
+                TreeNode* left = root->left;
+                delete root;    // 删除节点
+                return left;
+            }
+            // 3.root 有两个子节点的情况，此时把右子树中的最小值放到 root 处
             // 找到 root 右子树的最小节点，即 root 的直接后继
             TreeNode* min_node = GetMinNode(root->right);
             // 去右子树中删除 min_node，实际上就变成了第一种删除情况：待删除节点没有子节点
@@ -48,6 +58,7 @@ public:
             min_node->left = root->left;
             min_node->right = root->right;
             // 令 root 指向新的子树根节点就行了，直接返回，会在上一层递归中接到树上
+            delete root;    // 删除节点
             root = min_node;
             
             // 如果要 delete 节点的话，每种分支里面都要 delete 节点

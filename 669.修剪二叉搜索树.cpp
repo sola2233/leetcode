@@ -18,6 +18,7 @@
  */
 class Solution {
 public:
+#if 0   // 类似后序遍历，又有点不像。。。
     TreeNode* trimBST(TreeNode* root, int low, int high) {
         // base case
         if (root == nullptr)
@@ -41,6 +42,27 @@ public:
 
         return root;
     }
+#endif
+
+#if 1   // 递归分解问题
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        // base case
+        if (root == nullptr)
+            return root;
+        // 寻找符合区间[low, high]的节点
+        if (root->val < low)
+            return trimBST(root->right, low, high);
+        if (root->val > high)
+            return trimBST(root->left, low, high);
+
+        // root->left接入符合条件的左孩子
+        root->left = trimBST(root->left, low, high);
+        // root->right接入符合条件的右孩子
+        root->right = trimBST(root->right, low, high);
+
+        return root;
+    }
+#endif
 };
 // @lc code=end
 
