@@ -46,6 +46,8 @@ public:
             // 树层去重，前一个数为 false 表示是同一层的重复数
             // 如果前一个数为 true 表示一条树枝上的重复数，即前一个选择
             if (i > 0 && nums[i] == nums[i - 1] && visited[i - 1] == false)
+            // used[i - 1] == true，说明同一树枝nums[i - 1]使用过
+            // used[i - 1] == false，说明同一树层nums[i - 1]使用过
                 continue;
 
             visited[i] = true;

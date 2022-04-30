@@ -15,6 +15,7 @@
 using namespace std;
 class Solution {
 public:
+#if 1   // 回溯法带返回值，比第二种方法高效一点应该
     // <出发地, <目的地, 剩余机票数>>，感觉像一个邻接表？？？
     // map 会排序，所以选择列表自动先选择字典序小的，如果 dfs 失败，再选择次小的
     unordered_map<string, map<string, int>> targets;
@@ -59,6 +60,52 @@ public:
         // 失败返回 false
         return false;
     }
+#endif
+
+#if 0   // 在决策树中剪枝
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string, map<string, int>> mp;
+        // 计数
+        for (auto& vec : tickets)
+            mp[vec[0]][vec[1]]++;
+
+        path.push_back("JFK");
+        backtracking(mp, tickets.size());
+
+        return res[0];
+    }
+
+    vector<vector<string>> res;
+    vector<string> path;
+    void backtracking(unordered_map<string, map<string, int>>& mp, const int& tickets)
+    {
+        // 已经没有票了
+        if (path.size() == tickets + 1)
+        {
+            res.push_back(path);
+            return;
+        }
+        
+        string from = path.back();
+        // 无效的路径，直接返回
+        if (!mp.count(from))
+            return;
+        for (auto ite = mp[from].begin(); ite != mp[from].end(); ++ite)
+        {
+            // 剪枝，已经找到完整的路径了
+            if (!res.empty())
+                break;
+            string to = ite->first;
+            if (ite->second == 0)
+                continue;
+            ite->second--;
+            path.push_back(to);
+            backtracking(mp, tickets);
+            path.pop_back();
+            ite->second++;
+        }
+    }
+#endif
 };
 // @lc code=end
 

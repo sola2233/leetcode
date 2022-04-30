@@ -13,6 +13,7 @@
 using namespace std;
 class Solution {
 public:
+#if 1   // 回溯
     vector<string> res;
     vector<string> path;
     // 也可以用字符串，往里 insert(s.begin() + i + 1, '.') eraser(s.begin() + i + 1) 即可
@@ -66,6 +67,67 @@ public:
             path.pop_back();
         }
     }
+#endif
+
+#if 0   // 随便写的
+
+    vector<string> restoreIpAddresses(string s) {
+        cnt = 0;
+        // 不满足条件的
+        if (s.size() < 4 || s.size() > 12)
+            return res;
+        // 有特殊字符的
+        for (char& ch : s)
+        {
+            if (!isdigit(ch))
+                return res;
+        }
+        // 回溯
+        backtracking(s, 0, "");
+
+        return res;
+    }
+
+    vector<string> res;
+    int cnt;
+    /**
+     * 回溯法 
+     * @param path 放到参数里，不用手动 pop 了
+     */
+    void backtracking(string& s, int start_idx, string path)
+    {
+        // 剪枝
+        if (cnt == 4 && start_idx < s.size())
+            return;
+        // base case
+        if (start_idx == s.size())
+        {
+            if (cnt == 4)
+            {
+                path.pop_back();
+                res.push_back(path);
+            }
+            return;
+        }
+
+        for (int i = start_idx; i < s.size(); ++i)
+        {
+            string word = s.substr(start_idx, i - start_idx + 1);
+            int num = stoi(word);
+            // 判断 ip 合法性
+            if (word.size() > 3)
+                break;
+            else if (word[0] == '0' && word.size() > 1)
+                break;
+            else if (num < 0 || num > 255)
+                break;
+            
+            cnt++;
+            backtracking(s, i + 1, path + word + ".");
+            cnt--;
+        }
+    }
+#endif
 };
 // @lc code=end
 
