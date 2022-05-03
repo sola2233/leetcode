@@ -30,7 +30,6 @@ public:
                 // 本层做选择
                 for (char k = '1'; k <= '9'; ++k)
                 {
-
                     // 跳过不合法的选择
                     if (!isValid(board, i, j, k))
                         continue;
