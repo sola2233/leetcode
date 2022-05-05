@@ -27,44 +27,47 @@
 using namespace std;
 class Solution {
 public:
+#if 0   // 方法1，大顶堆
     // 方法1
-    // int largestSumAfterKNegations(vector<int>& nums, int k) {
-    //     priority_queue<int, vector<int>, less<int>> pq_greater;
-    //     int sum = 0;
-    //     for (int i = 0; i < nums.size(); ++i)
-    //     {
-    //         pq_greater.push(nums[i]);
-    //         if (pq_greater.size() > k)
-    //         {
-    //             sum += pq_greater.top();
-    //             pq_greater.pop();
-    //         }
-    //     }
+    int largestSumAfterKNegations(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, less<int>> pq_greater;
+        int sum = 0;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            pq_greater.push(nums[i]);
+            if (pq_greater.size() > k)
+            {
+                sum += pq_greater.top();
+                pq_greater.pop();
+            }
+        }
 
-    //     priority_queue<int, vector<int>, greater<int>> pq_less;
-    //     while (!pq_greater.empty())
-    //     {
-    //         pq_less.push(pq_greater.top());
-    //         pq_greater.pop();
-    //     }
+        priority_queue<int, vector<int>, greater<int>> pq_less;
+        while (!pq_greater.empty())
+        {
+            pq_less.push(pq_greater.top());
+            pq_greater.pop();
+        }
 
-    //     for (int i = 0; i < k; ++i)
-    //     {
-    //         int num = -pq_less.top();
-    //         pq_less.pop();
-    //         pq_less.push(num);
-    //     }
+        for (int i = 0; i < k; ++i)
+        {
+            int num = -pq_less.top();
+            pq_less.pop();
+            pq_less.push(num);
+        }
 
-    //     while (!pq_less.empty())
-    //     {
-    //         sum += pq_less.top();
-    //         pq_less.pop();
-    //     }
+        while (!pq_less.empty())
+        {
+            sum += pq_less.top();
+            pq_less.pop();
+        }
 
-    //     return sum;
-    // }
+        return sum;
+    }
+#endif
 
-    // 方法2
+#if 1   // 方法2，贪心
+
     int largestSumAfterKNegations(vector<int>& nums, int k) {
         int n = nums.size();
         // 按绝对值降序排序
@@ -92,6 +95,48 @@ public:
 
         return res;
     }
+#endif
+
+#if 0   // 方法2，贪心的另一种写法，啰嗦一点
+
+    int largestSumAfterKNegations(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end(), less<int>());
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            if (k == 0)
+                break;
+            if (nums[i] < 0)    // 小于 0 的情况
+            {
+                nums[i] = -nums[i];
+                k--;
+                if (k % 2 == 1 && i == nums.size() - 1)  // 如果已经到末尾，还剩下 k
+                {
+                    nums[i] = -1 * nums[i];
+                    k = 0;
+                }
+            }
+            else if (nums[i] == 0)
+            {
+                k = 0;
+                break;
+            }
+            else if (nums[i] > 0)   // 遇到正数还剩下 k
+            {
+                if (k % 2 == 1)
+                {
+                    // 变化最小的元素
+                    if (i > 0 && nums[i] > nums[i - 1])
+                        nums[i - 1] = -nums[i - 1];
+                    else
+                        nums[i] = -nums[i];
+                }
+                k = 0;
+            }
+        }
+
+        return accumulate(nums.begin(), nums.end(), 0);
+    }
+#endif
 };
 // @lc code=end
 

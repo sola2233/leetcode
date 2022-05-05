@@ -31,7 +31,23 @@
 using namespace std;
 class Solution {
 public:
-    // 方法2，空间复杂度 o(1)
+
+#if 1   // 方法3，贪心
+
+    int maxProfit(vector<int>& prices) {
+        int max_profit = 0;
+        // 利润和可以分解成差分数组的形式
+        for (int i = 1; i < prices.size(); ++i)
+            max_profit += max(0, prices[i] - prices[i - 1]);
+
+        return max_profit;
+    }
+
+#endif
+
+
+#if 0   // 方法2，空间复杂度 o(1)
+    
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
         // base case
@@ -46,28 +62,32 @@ public:
 
         return dp_i_0;
     }
+#endif
 
-    // 方法1，空间复杂度 o(n*2)
-    // int maxProfit(vector<int>& prices) {
-    //     int n = prices.size();
-    //     vector<vector<int>> dp(n, vector<int>(2));
+
+#if 0   // 方法1，空间复杂度 o(n*2)
+
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(2));
         
-    //     for (int i = 0; i < n; ++i)
-    //     {
-    //         // base case
-    //         if (i - 1 == -1)
-    //         {
-    //             dp[0][0] = 0;
-    //             dp[0][1] = -prices[i];
-    //             continue;
-    //         }
-    //         // 状态转移方程
-    //         dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]);
-    //         dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
-    //     }
+        for (int i = 0; i < n; ++i)
+        {
+            // base case
+            if (i - 1 == -1)
+            {
+                dp[0][0] = 0;
+                dp[0][1] = -prices[i];
+                continue;
+            }
+            // 状态转移方程
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]);
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        }
 
-    //     return dp[n-1][0];
-    // }
+        return dp[n-1][0];
+    }
+#endif
 };
 // @lc code=end
 
