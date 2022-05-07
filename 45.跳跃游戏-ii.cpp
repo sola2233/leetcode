@@ -52,6 +52,8 @@ public:
 
 #if 1   
     // 方法1，但是还可以继续优化，不需要检查是否到达终点
+    // [i, cur_dist] : 标记了可以选择的跳跃步数
+    // max_dist : 标记了所有选择的 [i, cur_dist] 中能够跳到的最远距离
     int jump(vector<int>& nums) {
         int n = nums.size();
         // 负例

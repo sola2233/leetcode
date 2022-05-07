@@ -30,6 +30,7 @@ public:
         for(int i = size - 1; i > 0; i--)
         {
             if(ratings[i-1] > ratings[i])
+                // note 这里是 max，选择最大的那个
                 num[i-1] = max(num[i-1], num[i] + 1);
         }
         /** 返回累加和，第三个参数指定累加的初始值 */

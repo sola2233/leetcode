@@ -13,12 +13,13 @@
  * 核心思想：高个子先站好位，矮个子插入到K位置上，前面肯定有K个高个子，矮个子再插到前面也满足K的要求 
  */
 #include <vector>
+#include <list>
 #include <algorithm>
 using namespace std;
 class Solution {
 public:
+#if 0   // vector
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
-        // 可以进一步优化，用 list 代替 vector，因为 vector 的插入操作复杂度为 o(n)
         vector<vector<int>> res;
         res.reserve(people.size());
         int n = people.size();
@@ -38,6 +39,38 @@ public:
 
         return res;
     }
+#endif
+
+
+#if 1   // list
+
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        // 进一步优化，用 list 代替 vector，因为 list 的插入操作复杂度为 o(1)
+        list<vector<int>> res;
+        int n = people.size();
+        // 负例
+        if(n < 2)
+            return people;
+        // 按 H 和 K 排序
+        sort(people.begin(), people.end(), [](vector<int>& a, vector<int>& b) {
+            return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);
+        });
+        // 按 K 插入到合适位置
+        for(int i = 0; i < n; i++)
+        {
+            int idx = people[i][1]; // 要插入的位置
+            auto ite = res.begin();
+            while (idx)
+            {
+                ite++;
+                idx--;
+            }
+            res.insert(ite, people[i]);
+        }
+
+        return vector<vector<int>>(res.begin(), res.end());
+    }
+#endif
 };
 // @lc code=end
 
