@@ -15,6 +15,7 @@
 using namespace std;
 class Solution {
 public:
+#if 1   // 动态规划
     int minCostClimbingStairs(vector<int>& cost) {
         int n = cost.size();
         // 空间压缩
@@ -31,6 +32,19 @@ public:
 
         return min(dp[0], dp[1]);
     }
+#endif
+
+
+#if 0   // 这里的 dp[i] 含义是到达第 i 级台阶的花费
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n + 1, 0);
+        for (int i = 2; i <= n; ++i)
+            dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+
+        return dp[n];
+    }
+#endif
 };
 // @lc code=end
 

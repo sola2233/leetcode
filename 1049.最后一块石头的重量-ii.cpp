@@ -15,31 +15,34 @@
 using namespace std;
 class Solution {
 public:
-    // 二维
-    // int lastStoneWeightII(vector<int>& stones) {
-    //     int n = stones.size();
-    //     int sum = accumulate(stones.begin(), stones.end(), 0);
-    //     int target = sum / 2;
-    //     // dp[i][j]: 在下标[0, i]内选石头，在总重量 j 内能达到的最大重量
-    //     vector<vector<int>> dp(n, vector<int>(target + 1, 0));
-    //     // base case
-    //     for (int j = stones[0]; j <= target; ++j)
-    //         dp[0][j] = stones[0];
-    //     for (int i = 1; i < n; ++i)
-    //     {
-    //         for (int j = 0; j <= target; ++j)
-    //         {
-    //             if (j < stones[i])
-    //                 dp[i][j] = dp[i - 1][j];
-    //             else
-    //                 dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - stones[i]] + stones[i]);
-    //         }
-    //     }
 
-    //     return sum - dp[n - 1][target] * 2;
-    // }
+#if 0   // 二维 dp
+    int lastStoneWeightII(vector<int>& stones) {
+        int n = stones.size();
+        int sum = accumulate(stones.begin(), stones.end(), 0);
+        int target = sum / 2;
+        // dp[i][j]: 在下标[0, i]内选石头，在总重量 j 内能达到的最大重量
+        vector<vector<int>> dp(n, vector<int>(target + 1, 0));
+        // base case
+        for (int j = stones[0]; j <= target; ++j)
+            dp[0][j] = stones[0];
+        for (int i = 1; i < n; ++i)
+        {
+            for (int j = 0; j <= target; ++j)
+            {
+                if (j < stones[i])
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - stones[i]] + stones[i]);
+            }
+        }
 
-    // 一维
+        return sum - dp[n - 1][target] * 2;
+    }
+#endif
+
+
+#if 1   // 一维 dp
     int lastStoneWeightII(vector<int>& stones) {
         int n = stones.size();
         int sum = accumulate(stones.begin(), stones.end(), 0);
@@ -58,6 +61,7 @@ public:
 
         return sum - dp[target] * 2;
     }
+#endif
 };
 // @lc code=end
 
