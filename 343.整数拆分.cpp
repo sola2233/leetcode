@@ -17,9 +17,12 @@
  * base case: dp[1] = 1，dp[2] = 1，dp[3] = 2，dp[4] = 4，dp[5] = 6
  */
 #include <vector>
+#include <algorithm>
 using namespace std;
 class Solution {
 public:
+
+#if 0   // 复杂一点的写法
     int integerBreak(int n) {
         vector<int> dp(n + 1);
         dp[1] = 1;
@@ -37,6 +40,26 @@ public:
 
         return dp[n];
     }
+#endif
+
+#if 1   // 更简单的写法
+    int integerBreak(int n) {
+        vector<int> dp(n + 1, 0);
+        // base case
+        dp[2] = 1;
+        
+        for (int i = 3; i <= n; ++i)
+        {
+            for (int j = 1; j <= i - 1; ++j)
+            {
+                // note 为什么 j 不用差分
+                dp[i] = max({dp[i], j * (i - j), j * dp[i - j]});
+            }
+        }
+
+        return dp[n];
+    }
+#endif
 };
 // @lc code=end
 

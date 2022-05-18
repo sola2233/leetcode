@@ -14,13 +14,15 @@
  * 递推公式：dp[i][j] = max(dp[i][j], dp[i - zeroNum][j - oneNum] + 1);
  * 对比一下就会发现，字符串的zeroNum和oneNum相当于物品的重量（weight[i]）
  * 字符串本身的个数相当于物品的价值（value[i]）。
- * base case：01背包的dp数组初始化为0就可以
+ * base case：01背包的dp数组初始化为0就可以，含义就是 0 个 0 和 0 个 1 的自己大小为 0
  */
 #include <vector>
 #include <string>
 using namespace std;
 class Solution {
 public:
+
+#if 1   // 空间压缩
     int findMaxForm(vector<string>& strs, int m, int n) {
         vector<vector<int>> dp(m + 1, vector<int>(n + 1));
         // base case
@@ -44,6 +46,46 @@ public:
         }
         return dp[m][n];
     }
+#endif
+
+
+#if 0   // 空间复杂度较高
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        int size = strs.size();
+        vector<int> zero(size, 0);
+        vector<int> one(size, 0);
+        // 计数
+        for (int i = 0; i < size; ++i)
+        {
+            for (char &ch : strs[i])
+            {
+                if (ch == '0')
+                    zero[i]++;
+                else
+                    one[i]++;
+            }
+        }
+
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        
+        // base case
+        dp[0][0] = 0;
+        // 遍历物品
+        for (int i = 0; i < size; ++i)
+        {
+            // 遍历背包，从后往前遍历
+            for (int j = m; j >= zero[i]; --j)
+            {
+                for (int k = n; k >= one[i]; --k)
+                {
+                    dp[j][k] = max(dp[j - zero[i]][k - one[i]] + 1, dp[j][k]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+#endif
 };
 // @lc code=end
 

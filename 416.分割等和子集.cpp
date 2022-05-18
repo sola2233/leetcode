@@ -32,7 +32,7 @@ public:
         {
             for (int j = target; j >= nums[i]; --j)
             {
-                // for 循环条件里已经保证没有这种情况了
+                // for 循环条件里已经保证没有这种情况了，如果 nums[i] > target，dp[j] 依然等于上次的值，不像二维数组需要再次赋值
                 // if (j < nums[i])
                 //     continue;
                 dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
